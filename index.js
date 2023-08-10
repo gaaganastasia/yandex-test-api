@@ -18,7 +18,7 @@ const app = express();
 const allowedCors = [
   'https://yandex-test.vercel.app',
   'http://yandex-test.vercel.app',
-  'localhost:3000'
+  'http://localhost:3000'
 ];
 
 mongoose.connect('mongodb+srv://ndthwm:EjE8M8tlenBg4k6l@cluster0.2fcrwu7.mongodb.net/?retryWrites=true&w=majority', {
