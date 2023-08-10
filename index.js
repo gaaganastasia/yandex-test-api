@@ -27,11 +27,6 @@ app.use(requestLogger);
 app.use(limiter);
 
 app.use(cors());
-app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
-});
 
 app.use(helmet());
 app.use(cookieParser());
@@ -45,6 +40,12 @@ app.get('/crash-test', () => {
   }, 0);
 });
 
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', 'https://yandex-test.vercel.app');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+  res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+  next();
+});
 app.use('/', router);
 
 // eslint-disable-next-line no-unused-vars
