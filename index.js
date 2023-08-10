@@ -15,6 +15,12 @@ const bcrypt = require('bcryptjs');
 const { PORT = 3001 } = process.env;
 const app = express();
 
+const allowedCors = [
+  'https://yandex-test.vercel.app',
+  'http://yandex-test.vercel.app',
+  'localhost:3000'
+];
+
 mongoose.connect('mongodb+srv://ndthwm:EjE8M8tlenBg4k6l@cluster0.2fcrwu7.mongodb.net/?retryWrites=true&w=majority', {
   useUnifiedTopology: true,
   useNewUrlParser: true,
@@ -28,11 +34,15 @@ app.use(helmet());
 app.use(requestLogger);
 app.use(limiter);
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Methods", "PUT, GET, POST, DELETE, OPTIONS");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  const { origin } = req.headers;
+
+  if (allowedCors.includes(origin)) {
+    res.header('Access-Control-Allow-Origin', origin);
+  }
+
   next();
 });
 
